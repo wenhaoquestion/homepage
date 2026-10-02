@@ -1,36 +1,46 @@
-# Personal homepage
+# Wenyu Huang — Physics & Computation
 
-A responsive personal homepage built with plain HTML, CSS, and JavaScript. No package installation or build step is required.
+A bilingual personal homepage for Wenyu Huang (黄文瑀), a UC San Diego physics undergraduate, expected graduation 2029. Swiss typography, an interactive gravity experiment, research projects, and a real-data cell mechanics explorer. Plain HTML, CSS, and JavaScript; no installation or build step.
 
-## Preview locally
-
-From the repository directory, run:
+## Local preview
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Open [localhost:8000](http://localhost:8000). Stop the server with `Ctrl+C`.
+Open [localhost:8000](http://localhost:8000). Use HTTP rather than opening the HTML file directly, because the cell explorer loads a local JSON data file.
 
-## Files and editing
+## Features
+
+- English by default; Chinese switch with translated content, controls, metadata, and image descriptions.
+- Light and dark themes. Initial theme follows the system; explicit language/theme choices are remembered locally.
+- Interactive gravity experiment with draggable particle launches, adjustable gravity, keyboard controls, reset, and pause.
+- Scroll reveals, reading progress, active navigation, native project disclosures, and image enlargement.
+- Cell mechanics explorer: select cell area or myosin, scrub saved simulation time, play/pause, reset, and inspect local approximate values. This renders real saved data; it does not solve a new model in the browser.
+- Five projects: Cell stress, EnergyBench, Elastocapillarity, Research Atlas, and Wenhao’s Arcade.
+- Responsive layout, keyboard focus, native image dialog, reduced-motion support, and offscreen animation suspension.
+
+## Editing
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Page content, navigation, and project links. Edit personal text and project URLs here. |
-| `styles.css` | Colors, typography, layout, and responsive styles. |
-| `script.js` | Navigation menu enhancement. |
-| `assets/wave-study.webp` | Locally stored hero artwork. |
-| `.nojekyll` | Tells GitHub Pages to serve the static files without Jekyll processing. |
+| `index.html` | English content, project links, and semantic structure. |
+| `script.js` | Chinese translations, language/theme preferences, navigation, and image viewer. |
+| `styles.css` | Design tokens, responsive layout, typography, motion, and themes. |
+| `gravity.js` | Softened inverse-square gravity experiment. |
+| `cell-study.js` | Browser rendering and controls for real saved simulation fields. |
+| `assets/cell-fields.json` | Compact original simulation data; see `docs/cell-data.md`. |
+| `docs/design.md` | Design direction and intentional adaptations. |
+| `docs/content-sources.md` | Source notes for project descriptions and media. |
 
-The AI-generated hero image is an artistic illustration, not experimental data or a scientific result. The site uses no third-party runtime, remotely loaded assets or fonts, or analytics. Project links lead to external websites only when selected.
+To add or change text, update its English value in `index.html` and the matching key in the `chinese` dictionary in `script.js`. English defaults are read from the HTML. Replace project images under `assets/`; preserve meaningful image descriptions. Add publications only when actual citation details and links are supplied.
 
-## Publish with GitHub Pages
+The site loads no third-party fonts, runtime libraries, analytics, or tracking scripts. Simulation data loads when its explorer approaches the viewport. External links load only when selected. The hero is an illustrative gravity experiment, not research output. Project images come from the corresponding projects; the arcade image is its original cover artwork.
 
-After the files are on the repository's `main` branch:
+## GitHub Pages
 
-1. Open the repository's **Settings → Pages**.
-2. Under **Build and deployment**, select **Deploy from a branch**.
-3. Select **main** and **/(root)**, then save.
-4. Wait for GitHub's deployment to finish; the Pages settings will show the published address.
+Publish the `main` branch at the repository root through **Settings → Pages → Deploy from a branch**. `.nojekyll` enables direct static serving. All local asset URLs are relative and work under the `/homepage/` project path.
 
-The expected project-site address is [wenhaoquestion.github.io/homepage/](https://wenhaoquestion.github.io/homepage/). This is the expected URL, not confirmation that the site has been deployed. Keep asset and internal-page paths relative so they work under `/homepage/` as well as in local previews.
+Site URL: [wenhaoquestion.github.io/homepage/](https://wenhaoquestion.github.io/homepage/).
+
+No backend, secret key, or custom server is required. Changes pushed to `main` are rebuilt by GitHub Pages.

@@ -1,134 +1,175 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f8f7f3">
-    <meta name="description" content="Wenyu (Wing) Huang — physics student at UC San Diego exploring computational physics, adaptive learning systems, and scientific computing.">
+    <meta name="theme-color" content="#f5f5f2">
+    <meta name="description" content="Wenyu Huang (黄文瑀) — UC San Diego physics undergraduate, Class of 2029. Exploring physical systems, machine learning, and scientific computing.">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Wenyu Huang — Physics & Computation">
-    <meta property="og:description" content="Curiosity, made computational. Physics, learning systems, and selected projects by Wenyu (Wing) Huang.">
+    <meta property="og:description" content="Curiosity, computed. Physics, learning systems, and selected projects by Wenyu Huang.">
     <title>Wenyu Huang — Physics & Computation</title>
     <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="./styles.css">
+    <script>
+      try {
+        const savedTheme = localStorage.getItem('wing-theme');
+        document.documentElement.dataset.theme = savedTheme === 'dark' || (!savedTheme && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+      } catch (_) { /* Use the default light theme when storage is unavailable. */ }
+    </script>
     <script src="./script.js" defer></script>
+    <script src="./gravity.js" defer></script>
+    <script src="./cell-study.js" defer></script>
   </head>
   <body id="top">
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
     <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <symbol id="arrow-right" viewBox="0 0 24 24"><path d="M3 12h17M13 5l7 7-7 7"/></symbol>
-      <symbol id="arrow-up-right" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></symbol>
-      <symbol id="arrow-up" viewBox="0 0 24 24"><path d="M12 21V4M5 11l7-7 7 7"/></symbol>
+      <symbol id="arrow-ne" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></symbol>
+      <symbol id="arrow-se" viewBox="0 0 24 24"><path d="m5 5 14 14M5 19h14V5"/></symbol>
+      <symbol id="arrow-up" viewBox="0 0 24 24"><path d="M12 21V3m-7 7 7-7 7 7"/></symbol>
+      <symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3M4 4l2 2m12 12 2 2M4 20l2-2M18 6l2-2"/></symbol>
+      <symbol id="moon" viewBox="0 0 24 24"><path d="M20.5 14A8.8 8.8 0 0 1 10 3.5 8.8 8.8 0 1 0 20.5 14Z"/></symbol>
     </svg>
 
-    <header class="site-header shell">
-      <a class="wordmark" href="#top" aria-label="Wenyu Huang, back to top">Wenyu Huang<span class="brand-dot" aria-hidden="true"></span></a>
-      <nav class="desktop-nav" aria-label="Main navigation">
-        <a href="#about">About</a>
-        <a href="#research">Research</a>
-        <a href="#projects">Projects</a>
-        <a class="github-link" href="https://github.com/wenhaoquestion">GitHub<svg class="icon" aria-hidden="true"><use href="#arrow-up-right"/></svg></a>
-      </nav>
-      <details class="mobile-nav">
-        <summary>Menu<span class="menu-mark" aria-hidden="true"></span></summary>
-        <nav aria-label="Mobile navigation">
-          <a href="#about">About</a>
-          <a href="#research">Research</a>
-          <a href="#projects">Projects</a>
-          <a href="https://github.com/wenhaoquestion">GitHub<svg class="icon" aria-hidden="true"><use href="#arrow-up-right"/></svg></a>
+    <header class="site-header">
+      <div class="header-inner shell">
+        <a class="wordmark" href="#top" aria-label="Wenyu Huang, back to top" data-i18n-aria="brandAria"><span data-i18n="brand">WENYU HUANG</span><span class="brand-dot" aria-hidden="true">.</span></a>
+        <nav class="desktop-nav" aria-label="Main navigation" data-i18n-aria="navAria">
+          <a href="#about" data-section="about" data-i18n="navAbout">About</a>
+          <a href="#research" data-section="research" data-i18n="navResearch">Research</a>
+          <a href="#projects" data-section="projects" data-i18n="navProjects">Projects</a>
+          <a href="https://github.com/wenhaoquestion" class="github-link">GitHub<svg class="icon" aria-hidden="true"><use href="#arrow-ne"/></svg></a>
         </nav>
-      </details>
+        <div class="header-tools">
+          <button id="language-toggle" class="utility-button language-toggle" type="button" aria-label="Switch to Chinese" lang="zh-CN">中文</button>
+          <button id="theme-toggle" class="utility-button theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><svg class="icon moon-icon" aria-hidden="true"><use href="#moon"/></svg><svg class="icon sun-icon" aria-hidden="true"><use href="#sun"/></svg></button>
+          <details class="mobile-nav">
+            <summary aria-label="Open navigation" data-i18n-aria="menuAria"><span class="menu-mark" aria-hidden="true"></span></summary>
+            <nav aria-label="Mobile navigation" data-i18n-aria="mobileNavAria">
+              <a href="#about"><span>01</span><span data-i18n="navAbout">About</span></a>
+              <a href="#research"><span>02</span><span data-i18n="navResearch">Research</span></a>
+              <a href="#projects"><span>03</span><span data-i18n="navProjects">Projects</span></a>
+              <a href="https://github.com/wenhaoquestion"><span>↗</span>GitHub</a>
+            </nav>
+          </details>
+        </div>
+      </div>
+      <div class="reading-progress" aria-hidden="true"></div>
     </header>
 
-    <main id="main" class="shell" tabindex="-1">
-      <section class="hero" aria-labelledby="hero-title">
+    <main id="main" tabindex="-1">
+      <section class="hero shell" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <h1 id="hero-title">Curiosity,<br>made<br><em>computational.</em></h1>
-          <p class="intro">I’m Wing, a physics student at UC San Diego exploring how we understand the world — and how machines can learn from it.</p>
-          <div class="hero-actions">
-            <a class="button" href="#research">Explore my interests<svg class="icon" aria-hidden="true"><use href="#arrow-right"/></svg></a>
-            <a class="text-link" href="#about">A little about me</a>
+          <h1 id="hero-title"><span class="title-line"><span data-i18n="heroLine1">Curiosity,</span></span><span class="title-line"><span data-i18n="heroLine2">computed.</span></span></h1>
+          <div class="hero-intro">
+            <p class="hero-name" data-i18n="heroName">Wenyu Huang / Wing</p>
+            <div><p class="intro" data-i18n="heroIntro">A physics undergraduate at UC San Diego, Class of 2029. Exploring physical systems, learning machines, and the patterns in between.</p>
+            <a class="text-link accent-link hero-cta" href="#projects"><span data-i18n="explore">Explore my work</span><svg class="icon" aria-hidden="true"><use href="#arrow-se"/></svg></a></div>
           </div>
         </div>
-        <figure class="hero-art">
-          <img src="./assets/wave-study.webp" width="1254" height="1254" alt="Abstract black filaments crossing and flowing into a delicate wave pattern." fetchpriority="high" decoding="async">
-          <figcaption>An interest in patterns. A habit of asking why.</figcaption>
+        <figure class="gravity-study">
+          <div class="gravity-canvas-wrap"><canvas id="gravity-canvas" width="640" height="640" role="img" aria-label="Interactive gravity experiment. Drag to launch a particle, or use the Launch particle button. Adjust gravity to change its orbit." data-i18n-aria="gravityAria"></canvas></div>
+          <figcaption class="gravity-caption"><span id="gravity-hint" data-i18n="gravityHint">Gravity playground — Drag to launch</span><button id="gravity-toggle" type="button" class="gravity-toggle" aria-pressed="false" aria-label="Pause animation"><span class="pause-mark" aria-hidden="true"></span><span class="sr-only" data-gravity-toggle-label>Pause animation</span></button></figcaption>
+          <div class="gravity-controls"><label for="gravity-strength" data-i18n="frequency">Gravity</label><input id="gravity-strength" type="range" min="0.3" max="2" value="1" step="0.05"><output for="gravity-strength" id="gravity-strength-value">1.00×</output></div>
+          <div class="gravity-actions"><button id="gravity-launch" type="button" data-i18n="launchParticle">Launch particle</button><button id="gravity-reset" type="button" data-i18n="resetGravity">Reset</button><span id="gravity-status" class="sr-only" role="status"></span></div>
+          <noscript><p class="gravity-noscript">Enable JavaScript to explore gravity.</p></noscript>
         </figure>
       </section>
 
-      <dl class="at-a-glance" aria-label="At a glance">
-        <div><dt>Studying</dt><dd>Physics at UC San Diego</dd></div>
-        <div><dt>Exploring</dt><dd>Learning systems &amp; computation</dd></div>
-        <div><dt>Based in</dt><dd>San Diego, California</dd></div>
+      <dl class="at-a-glance shell" aria-label="At a glance" data-i18n-aria="factsAria">
+        <div><dt>01 / <span data-i18n="studyLabel">STUDY</span></dt><dd data-i18n="studyValue">Physics @ UC San Diego · 2029</dd></div>
+        <div><dt>02 / <span data-i18n="focusLabel">FOCUS</span></dt><dd data-i18n="focusValue">Learning systems &amp; computation</dd></div>
+        <div><dt>03 / <span data-i18n="locationLabel">LOCATION</span></dt><dd data-i18n="locationValue">San Diego, California</dd></div>
       </dl>
 
-      <section id="about" class="section-rail about" aria-labelledby="about-title">
-        <p class="section-label"><span>01 /</span> About</p>
+      <section id="about" class="about section-rail shell" aria-labelledby="about-title">
+        <p class="section-label reveal">01 / <span data-i18n="aboutLabel">ABOUT</span></p>
         <div class="section-content">
-          <h2 id="about-title">A little about me<span class="accent">.</span></h2>
-          <div class="about-copy">
-            <p>I’m Wenyu, also known as Wing. I study physics at UC San Diego, with an interest in the questions that connect physical systems, mathematics, and machine learning.</p>
-            <p>I like turning ideas into models, testing them with code, and finding out where the explanation breaks down.</p>
+          <h2 id="about-title" class="reveal"><span data-i18n="aboutLine1">An interest in patterns.</span><br><span data-i18n="aboutLine2">A habit of asking why.</span></h2>
+          <div class="about-copy reveal"><p data-i18n="aboutP1">I’m Wenyu Huang (黄文瑀), also known as Wing. I’m a physics undergraduate at UC San Diego, expecting to graduate in 2029. My interests connect physical systems, mathematics, and machine learning.</p><p data-i18n="aboutP2">I like turning ideas into models, testing them with code, and finding out where the explanation breaks down. This is a place for the questions I’m exploring and the things I’m building along the way.</p></div>
+          <div class="affiliations reveal"><p data-i18n="affiliationLabel">CURRENT RESEARCH GROUPS</p><div><a href="https://www.mattiaserra.com/" class="text-link"><span data-i18n="serraGroup">Mattia Serra Group</span><svg class="icon" aria-hidden="true"><use href="#arrow-ne"/></svg></a><a href="https://aobol.github.io/AoboLi/" class="text-link"><span data-i18n="liGroup">Aobo Li Group</span><svg class="icon" aria-hidden="true"><use href="#arrow-ne"/></svg></a></div></div>
+        </div>
+      </section>
+
+      <section id="research" class="research" aria-labelledby="research-title">
+        <div class="section-rail shell">
+          <p class="section-label reveal">02 / <span data-i18n="researchLabel">RESEARCH</span></p>
+          <div class="section-content">
+            <h2 id="research-title" class="reveal" data-i18n="researchTitle">Questions worth exploring.</h2>
+            <div class="research-list reveal">
+              <details class="research-item" open>
+                <summary><span class="row-index">01</span><h3 data-i18n="research1Title">Learning from physical signals</h3><span class="plus-mark" aria-hidden="true"></span></summary>
+                <div class="disclosure-body"><p data-i18n="research1Desc">What do our models actually learn — and how can we tell when a prediction relies on the wrong signal?</p><p class="topics" data-i18n="research1Topics">Particle physics / Machine learning</p></div>
+              </details>
+              <details class="research-item">
+                <summary><span class="row-index">02</span><h3 data-i18n="research2Title">Mechanics of living systems</h3><span class="plus-mark" aria-hidden="true"></span></summary>
+                <div class="disclosure-body"><p data-i18n="research2Desc">How do local forces, active stress, and material properties shape collective motion and tissue deformation?</p><p class="topics" data-i18n="research2Topics">Continuum mechanics / Biological physics</p></div>
+              </details>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="research" class="section-rail research" aria-labelledby="research-title">
-        <p class="section-label"><span>02 /</span> Research</p>
-        <div class="section-content">
-          <h2 id="research-title">Questions I keep coming back to<span class="accent">.</span></h2>
-          <div class="research-columns">
-            <article>
-              <h3>Learning that adapts</h3>
-              <p>How can learning systems grow, retain useful knowledge, and adapt to something new?</p>
-              <p class="topics">Machine learning <span aria-hidden="true">·</span> Adaptive systems</p>
-            </article>
-            <article>
-              <h3>Signals into insight</h3>
-              <p>How can we use computation to find meaningful structure in complex physical measurements?</p>
-              <p class="topics">Computational physics <span aria-hidden="true">·</span> Scientific computing</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="projects" class="projects" aria-labelledby="projects-title">
-        <p class="section-label"><span>03 /</span> Projects</p>
-        <div class="section-heading">
-          <h2 id="projects-title">Selected projects</h2>
-          <a class="text-link link-with-icon" href="https://github.com/wenhaoquestion?tab=repositories">All repositories<svg class="icon" aria-hidden="true"><use href="#arrow-up-right"/></svg></a>
-        </div>
+      <section id="projects" class="projects shell" aria-labelledby="projects-title">
+        <p class="section-label reveal">03 / <span data-i18n="projectsLabel">SELECTED WORK</span></p>
+        <div class="section-heading reveal"><h2 id="projects-title" data-i18n="projectsTitle">Ideas, put to work.</h2><a class="text-link underlined" href="https://github.com/wenhaoquestion?tab=repositories"><span data-i18n="allRepos">All repositories</span><svg class="icon" aria-hidden="true"><use href="#arrow-ne"/></svg></a></div>
         <div class="project-list">
-          <a class="project-row" href="https://github.com/wenhaoquestion/0vbb-benchmark" aria-label="EnergyBench — view GitHub repository">
-            <span class="project-number" aria-hidden="true">01</span>
-            <div class="project-name"><h3>EnergyBench</h3><p>Machine learning / Physics</p></div>
-            <p class="project-description">Evaluating particle-event classification and energy regression with NEXT detector data.</p>
-            <svg class="icon project-arrow" aria-hidden="true"><use href="#arrow-right"/></svg>
-          </a>
-          <a class="project-row" href="https://github.com/wenhaoquestion/PHYS-141-Final-Project-Bending-of-an-Elastic-Beam-by-a-Liquid-Drop" aria-label="Elastocapillarity — view GitHub repository">
-            <span class="project-number" aria-hidden="true">02</span>
-            <div class="project-name"><h3>Elastocapillarity</h3><p>Simulation / Scientific computing</p></div>
-            <p class="project-description">Modelling how a liquid drop bends an elastic beam with numerical solvers.</p>
-            <svg class="icon project-arrow" aria-hidden="true"><use href="#arrow-right"/></svg>
-          </a>
-          <a class="project-row" href="https://github.com/wenhaoquestion/UCSD-Research-Finder" aria-label="Research Atlas — view GitHub repository">
-            <span class="project-number" aria-hidden="true">03</span>
-            <div class="project-name"><h3>Research Atlas</h3><p>Web / Research tools</p></div>
-            <p class="project-description">A searchable guide to UCSD faculty, labs, and public research opportunities.</p>
-            <svg class="icon project-arrow" aria-hidden="true"><use href="#arrow-right"/></svg>
-          </a>
+          <details class="project-item reveal" open>
+            <summary><span class="row-index">01</span><span class="project-name"><span class="project-title" data-i18n="cellTitle">Cell stress</span><span class="project-category" data-i18n="cellCategory">Tissue mechanics / Mattia Serra group</span></span><span class="plus-mark" aria-hidden="true"></span></summary>
+            <div class="project-detail disclosure-body">
+              <div class="project-summary"><p data-i18n="cellDesc">Exploring how active stress and elasticity shape tissue deformation through continuum models, force-balance analysis, and numerical experiments.</p><a class="text-link underlined accent-link" href="mailto:weh049@ucsd.edu"><span data-i18n="discussResearch">Discuss this research</span><svg class="icon" aria-hidden="true"><use href="#arrow-ne"/></svg></a></div>
+              <div class="cell-study">
+                <div class="cell-visual"><canvas id="cell-canvas" width="640" height="640" role="img" aria-label="Interactive simulation field. Use the time slider and field buttons to explore cell area and myosin." data-i18n-aria="cellCanvasAria"></canvas><img class="cell-fallback" src="./assets/cell-stress.jpg" width="1680" height="740" alt="Saved cell-area and myosin simulation state." loading="lazy"><p id="cell-probe" class="cell-probe" aria-live="off"></p></div>
+                <div class="cell-panel">
+                  <p class="cell-kicker" data-i18n="cellStudyLabel">EXPLORE THE SIMULATION</p>
+                  <div class="cell-field-options" role="group" aria-label="Simulation field" data-i18n-aria="cellFieldAria"><button type="button" data-cell-field="area" aria-pressed="true" data-i18n="cellArea">Cell area</button><button type="button" data-cell-field="myosin" aria-pressed="false" data-i18n="cellMyosin">Myosin</button></div>
+                  <label for="cell-time" data-i18n="cellTimeLabel">Simulation time</label><output id="cell-time-label" for="cell-time">7.50 h</output><input type="range" id="cell-time" min="0" max="100" step="1" value="50">
+                  <div class="cell-playback"><button type="button" id="cell-play" aria-pressed="true"><span data-cell-play-label data-i18n="cellPlay">Play</span><span aria-hidden="true">↗</span></button><button type="button" id="cell-reset" data-i18n="cellReset">Reset</button></div>
+                  <div class="cell-legend"><p id="cell-field-label">Normalized cell area a/a₀</p><div class="cell-legend-bar"></div><div class="cell-legend-values"><span id="cell-min">0.4</span><span id="cell-max">1.0</span></div></div>
+                  <p id="cell-status" role="status" data-i18n="cellLoading">Loading simulation data…</p>
+                </div>
+                <p class="cell-caption" data-i18n="cellDataCaption">Original simulation fields, rendered live in your browser. Explore saved states over 0–15 hours; controls do not re-solve the model.</p>
+              </div>
+            </div>
+          </details>
+          <details class="project-item reveal">
+            <summary><span class="row-index">02</span><span class="project-name"><span class="project-title">EnergyBench</span><span class="project-category" data-i18n="project1Category">Particle physics &amp; ML / Aobo Li group</span></span><span class="plus-mark" aria-hidden="true"></span></summary>
+            <div class="project-detail disclosure-body">
+              <div class="project-summary"><p data-i18n="project1Desc">Evaluating particle-event models beyond headline accuracy, with energy-matched comparisons and diagnostics for energy dependence.</p><a class="text-link underlined accent-link" href="https://github.com/wenhaoquestion/0vbb-benchmark" aria-label="EnergyBench — view repository" data-i18n-aria="project1Aria"><span data-i18n="viewRepo">View repository</span><svg class="icon" aria-hidden="true"><use href="#arrow-ne"/></svg></a></div>
+              <figure class="project-figure"><a href="./assets/energybench.jpg" class="image-link" data-lightbox aria-label="Enlarge EnergyBench figure" data-i18n-aria="energyImageAria"><img src="./assets/energybench.jpg" width="1800" height="503" alt="EnergyBench comparisons of model rankings, tokenization, and energy dependence." loading="lazy" decoding="async"></a><figcaption><span data-i18n="energyCaption">Research figure — Model comparisons and energy-dependence diagnostics.</span><span class="figure-action" data-i18n="enlarge">Click image to enlarge ↗</span></figcaption></figure>
+            </div>
+          </details>
+          <details class="project-item reveal">
+            <summary><span class="row-index">03</span><span class="project-name"><span class="project-title">Elastocapillarity</span><span class="project-category" data-i18n="project2Category">Simulation / Scientific computing</span></span><span class="plus-mark" aria-hidden="true"></span></summary>
+            <div class="project-detail disclosure-body">
+              <div class="project-summary"><p data-i18n="project2Desc">A numerical study of liquid-drop bending, combining equilibrium geometry, nonlinear solvers, and interactive visualization.</p><a class="text-link underlined accent-link" href="https://github.com/wenhaoquestion/PHYS-141-Final-Project-Bending-of-an-Elastic-Beam-by-a-Liquid-Drop" aria-label="Elastocapillarity — view repository" data-i18n-aria="project2Aria"><span data-i18n="viewRepo">View repository</span><svg class="icon" aria-hidden="true"><use href="#arrow-ne"/></svg></a></div>
+              <figure class="project-figure"><a href="./assets/elastocapillarity.jpg" class="image-link" data-lightbox aria-label="Enlarge liquid-drop equilibrium figure" data-i18n-aria="elasticImageAria"><img src="./assets/elastocapillarity.jpg" width="1800" height="512" alt="Three equilibrium liquid-drop and elastic-beam shapes at increasing elastocapillary parameters." loading="lazy" decoding="async"></a><figcaption><span data-i18n="elasticCaption">Numerical study — Equilibrium shapes across three elastocapillary parameters.</span><span class="figure-action" data-i18n="enlarge">Click image to enlarge ↗</span></figcaption></figure>
+            </div>
+          </details>
+          <details class="project-item reveal">
+            <summary><span class="row-index">04</span><span class="project-name"><span class="project-title">Research Atlas</span><span class="project-category" data-i18n="project3Category">Web / Research tools</span></span><span class="plus-mark" aria-hidden="true"></span></summary>
+            <div class="project-detail disclosure-body">
+              <div class="project-summary"><p data-i18n="project3Desc">A searchable map of UC San Diego research, bringing faculty, labs, opportunities, and academic profiles into one interface.</p><a class="text-link underlined accent-link" href="https://github.com/wenhaoquestion/UCSD-Research-Finder" aria-label="Research Atlas — view repository" data-i18n-aria="project3Aria"><span data-i18n="viewRepo">View repository</span><svg class="icon" aria-hidden="true"><use href="#arrow-ne"/></svg></a></div>
+              <figure class="project-figure atlas-figure"><a href="./assets/research-atlas.jpg" class="image-link" data-lightbox aria-label="Enlarge Research Atlas interface" data-i18n-aria="atlasImageAria"><img src="./assets/research-atlas.jpg" width="1440" height="940" alt="Research Atlas interface with faculty search, research filters, results, and profile details." loading="lazy" decoding="async"></a><figcaption><span data-i18n="atlasCaption">Interface study — Search, filter, and explore UC San Diego research.</span><span class="figure-action" data-i18n="enlarge">Click image to enlarge ↗</span></figcaption></figure>
+            </div>
+          </details>
+          <details class="project-item reveal">
+            <summary><span class="row-index">05</span><span class="project-name"><span class="project-title">Wenhao’s Arcade</span><span class="project-category" data-i18n="arcadeCategory">Browser games / Side project</span></span><span class="plus-mark" aria-hidden="true"></span></summary>
+            <div class="project-detail disclosure-body">
+              <div class="project-summary"><p data-i18n="arcadeDesc">A browser arcade of puzzles, strategy games, and playful experiments—with responsive controls, local favorites, and AI opponents.</p><div class="project-actions"><a class="text-link underlined accent-link" href="https://wenhaoquestion.github.io/My-Game-Web/"><span data-i18n="playArcade">Play the arcade</span><svg class="icon" aria-hidden="true"><use href="#arrow-ne"/></svg></a><a class="text-link underlined" href="https://github.com/wenhaoquestion/My-Game-Web">GitHub<svg class="icon" aria-hidden="true"><use href="#arrow-ne"/></svg></a></div></div>
+              <figure class="project-figure"><a href="https://wenhaoquestion.github.io/My-Game-Web/" class="arcade-image-link" aria-label="Play Wenhao’s Arcade" data-i18n-aria="arcadeImageAria"><img src="./assets/arcade.webp" width="2172" height="724" alt="Green voxel snake on a black grid, cover artwork for Wenhao’s Arcade." loading="lazy" decoding="async"></a><figcaption><span data-i18n="arcadeCaption">A little play. A better day. — Original project cover artwork.</span><span data-i18n="arcadeLive">Play in your browser ↗</span></figcaption></figure>
+            </div>
+          </details>
         </div>
       </section>
 
-      <section class="contact" aria-labelledby="contact-title">
-        <div><h2 id="contact-title">There’s always another question.</h2><p>Explore the code, follow along, or start a conversation.</p></div>
-        <a class="button" href="https://github.com/wenhaoquestion">Find me on GitHub<svg class="icon" aria-hidden="true"><use href="#arrow-up-right"/></svg></a>
-      </section>
+      <footer class="contact" aria-labelledby="contact-title">
+        <div class="shell">
+          <div class="contact-main"><h2 id="contact-title" class="reveal"><span data-i18n="contactLine1">Always another</span><br><span data-i18n="contactLine2">question.</span></h2><div class="contact-links reveal"><p data-i18n="contactDesc">Have a question, an idea, or something worth exploring together?</p><a class="email-link text-link underlined" href="mailto:weh049@ucsd.edu">weh049@ucsd.edu<svg class="icon" aria-hidden="true"><use href="#arrow-ne"/></svg></a><a class="text-link github-contact" href="https://github.com/wenhaoquestion"><span data-i18n="contactGithub">Find me on GitHub</span><svg class="icon" aria-hidden="true"><use href="#arrow-ne"/></svg></a></div></div>
+          <div class="footer-bottom"><p>© <span id="year">2026</span> <span data-i18n="copyrightName">Wenyu Huang</span></p><a href="#top" class="text-link"><span data-i18n="backTop">Back to top</span><svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a></div>
+        </div>
+      </footer>
     </main>
-
-    <footer class="site-footer shell">
-      <p>© <span id="year">2026</span> Wenyu Huang</p>
-      <div><p>Built with curiosity.</p><a href="#top">Back to top<svg class="icon" aria-hidden="true"><use href="#arrow-up"/></svg></a></div>
-    </footer>
+    <dialog id="image-viewer" class="image-viewer" aria-label="Project image" data-i18n-aria="imageViewerAria"><button class="viewer-close" type="button" data-i18n="closeImage">Close ×</button><img alt=""><p class="viewer-caption"></p></dialog>
   </body>
 </html>
