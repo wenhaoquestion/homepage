@@ -79,9 +79,11 @@
     elasticCaption: '数值研究 — 三种弹性毛细参数下的平衡形态。',
     project3Category: '网页 / 科研工具',
     project3Desc: '一张可搜索的 UC San Diego 科研地图，将教师、实验室、科研机会与学术档案汇集于同一界面。',
-    project3Aria: 'Research Atlas — 查看代码仓库',
+    project3Aria: 'Research Atlas — 查看 GitHub 代码仓库',
+    project3WebsiteAria: 'Research Atlas — 访问网站',
+    visitWebsite: '访问网站',
     atlasImageAria: '放大 Research Atlas 界面',
-    atlasCaption: '界面设计 — 搜索、筛选并探索 UC San Diego 的科研。',
+    atlasCaption: '在线网站 — 搜索、筛选并探索 UC San Diego 的科研。',
     enlarge: '点击图片放大 ↗',
     imageViewerAria: '项目图片',
     closeImage: '关闭 ×',
@@ -113,7 +115,7 @@
   const imageDescriptions = {
     energyImageAria: 'EnergyBench 对模型排名、分词方式与能量依赖性的对比图。',
     elasticImageAria: '三种递增弹性毛细参数下的液滴与弹性梁平衡形态。',
-    atlasImageAria: 'Research Atlas 界面，包含教师搜索、研究筛选、搜索结果与个人档案详情。',
+    atlasImageAria: 'Research Atlas 在线网站，包含教师搜索、研究筛选、课程与评分概览，以及教师档案。',
     arcadeImageAria: '黑色网格上的绿色方块蛇，Wenhao’s Arcade 项目封面插图。',
   };
   const projectImages = [...document.querySelectorAll('.project-figure a')].map((link) => {
