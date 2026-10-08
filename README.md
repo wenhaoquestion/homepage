@@ -17,7 +17,7 @@ Open [localhost:8000](http://localhost:8000). Use HTTP rather than opening the H
 - Interactive gravity experiment with draggable particle launches, adjustable gravity, keyboard controls, reset, and pause.
 - Scroll reveals, reading progress, active navigation, native project disclosures, and image enlargement.
 - Cell mechanics explorer: select cell area or myosin, scrub saved simulation time, play/pause, reset, and inspect local approximate values. This renders real saved data; it does not solve a new model in the browser.
-- Five projects: Cell stress, EnergyBench, Elastocapillarity, Research Atlas, and Wenhao’s Arcade.
+- Six projects: Cell stress, EnergyBench, Elastocapillarity, Research Atlas, Wenhao’s Arcade, and Information-Driven Neural Growth.
 - Responsive layout, keyboard focus, native image dialog, reduced-motion support, and offscreen animation suspension.
 
 ## Editing
@@ -35,7 +35,7 @@ Open [localhost:8000](http://localhost:8000). Use HTTP rather than opening the H
 
 To add or change text, update its English value in `index.html` and the matching key in the `chinese` dictionary in `script.js`. English defaults are read from the HTML. Replace project images under `assets/`; preserve meaningful image descriptions. Add publications only when actual citation details and links are supplied.
 
-The site loads no third-party fonts, runtime libraries, analytics, or tracking scripts. Simulation data loads when its explorer approaches the viewport. External links load only when selected. The hero is an illustrative gravity experiment, not research output. Project images come from the corresponding projects; the arcade image is its original cover artwork.
+The site loads no third-party fonts, runtime libraries, analytics, or tracking scripts. Simulation data loads when its explorer approaches the viewport. External links load only when selected. The hero is an illustrative gravity experiment, not research output. Project images come from the corresponding projects; the arcade image is its original cover artwork. The neural-growth illustration is an original concept schematic, not experimental data.
 
 ## GitHub Pages
 

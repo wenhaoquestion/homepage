@@ -200,6 +200,7 @@ details[open] > .disclosure-body { animation: disclosure-in 420ms var(--ease); }
 :lang(zh-CN) .research h2 { font-size: clamp(38px, 4.7vw, 71px); }
 :lang(zh-CN) .contact h2 { font-size: clamp(52px, 6.5vw, 100px); line-height: 1.08; }
 :lang(zh-CN) .wordmark { letter-spacing: -.06em; }
+:lang(zh-CN) #neural-growth-project .project-title { text-wrap: balance; }
 :lang(zh-CN) .intro, :lang(zh-CN) .about-copy p { line-height: 1.65; }
 @keyframes title-in { from { transform: translateY(110%); } to { transform: translateY(0); } }
 @keyframes fade-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }

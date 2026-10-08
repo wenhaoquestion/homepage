@@ -104,6 +104,12 @@
     arcadeImageAria: '进入 Wenhao’s Arcade 游乐场',
     arcadeCaption: '玩一会儿，换个心情。— 项目原有封面插图。',
     arcadeLive: '在浏览器中游玩 ↗',
+    growthTitle: '信息驱动的神经网络生长',
+    growthCategory: '神经网络 / 结构自适应',
+    growthDesc: '通过理论分析与数值实验，研究神经网络中的神经元分裂与结构自适应。',
+    growthRepoAria: '信息驱动的神经网络生长 — 查看 GitHub 代码仓库',
+    growthImageAria: '放大神经元分裂示意图',
+    growthCaption: '概念示意 — 神经元分裂改变网络结构。非实验数据。',
     contactLine1: '总有新的',
     contactLine2: '问题。',
     contactDesc: '有一个问题、一个想法，或值得一起探索的事物？',
@@ -117,6 +123,7 @@
     elasticImageAria: '三种递增弹性毛细参数下的液滴与弹性梁平衡形态。',
     atlasImageAria: 'Research Atlas 在线网站，包含教师搜索、研究筛选、课程与评分概览，以及教师档案。',
     arcadeImageAria: '黑色网格上的绿色方块蛇，Wenhao’s Arcade 项目封面插图。',
+    growthImageAria: '概念示意图：一个高亮神经元在分裂后变为两个高亮神经元；非实验数据。',
   };
   const projectImages = [...document.querySelectorAll('.project-figure a')].map((link) => {
     const image = link.querySelector('img');

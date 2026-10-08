@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="1200" height="520" role="img" aria-labelledby="title desc">
+  <title id="title">Neuron splitting — a concept schematic</title>
+  <desc id="desc">Two schematic networks illustrate one highlighted neuron before a split and two highlighted neurons afterward. Connection lines indicate structure only; this is not experimental data or an algorithm specification.</desc>
+  <rect width="1200" height="520" fill="#fff"/>
+  <g fill="#171715" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+    <text x="48" y="65" font-size="34" font-weight="600" letter-spacing="-1">Neuron splitting</text>
+    <text x="48" y="99" font-size="17" fill="#62625c">A change in network structure</text>
+  </g>
+  <path d="M48 125H1152" stroke="#bcbcb6"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#62625c" letter-spacing="1">
+    <text x="48" y="164">01 / BEFORE</text>
+    <text x="684" y="164">02 / AFTER A SPLIT</text>
+  </g>
+  <g fill="none" stroke="#9a9a93" stroke-width="2">
+    <path d="M116 230L296 290L476 230M116 350L296 290L476 350"/>
+    <path d="M724 230L896 230L1068 230M724 230L896 350L1068 350M724 350L896 230L1068 350M724 350L896 350L1068 230"/>
+  </g>
+  <g fill="#fff" stroke="#171715" stroke-width="2">
+    <circle cx="116" cy="230" r="18"/><circle cx="116" cy="350" r="18"/>
+    <circle cx="476" cy="230" r="18"/><circle cx="476" cy="350" r="18"/>
+    <circle cx="724" cy="230" r="18"/><circle cx="724" cy="350" r="18"/>
+    <circle cx="1068" cy="230" r="18"/><circle cx="1068" cy="350" r="18"/>
+  </g>
+  <g fill="#ed3d23">
+    <circle cx="296" cy="290" r="27"/>
+    <circle cx="896" cy="230" r="27"/><circle cx="896" cy="350" r="27"/>
+  </g>
+  <g stroke="#171715" stroke-width="2" fill="none">
+    <path d="M554 290H626M614 278L626 290L614 302"/>
+  </g>
+  <path d="M48 436H1152" stroke="#bcbcb6"/>
+  <text x="48" y="474" fill="#62625c" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">CONCEPT SCHEMATIC / NOT EXPERIMENTAL DATA</text>
+</svg>
