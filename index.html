@@ -17,9 +17,19 @@
         document.documentElement.dataset.theme = savedTheme === 'dark' || (!savedTheme && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
       } catch (_) { /* Use the default light theme when storage is unavailable. */ }
     </script>
+    <script>
+      // Hide the page until builder.js takes over; never leave it hidden if that script fails.
+      (function () {
+        var d = document.documentElement;
+        if (!window.matchMedia || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+        d.classList.add('bp-pending');
+        setTimeout(function () { if (!d.classList.contains('bp-ready')) d.classList.remove('bp-pending'); }, 4000);
+      })();
+    </script>
     <script src="./script.js" defer></script>
     <script src="./gravity.js" defer></script>
     <script src="./cell-study.js" defer></script>
+    <script src="./builder.js" defer></script>
   </head>
   <body id="top">
     <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
