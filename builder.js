@@ -485,7 +485,14 @@
       const top = t.inHeader ? 0 : headerBottom;
       const visible = !!r && r.bottom > top && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
       if (visible) {
-        if (t.state === 'idle') t.state = 'pending';
+        if (t.state === 'idle') {
+          if (started && now < instantUntil) {
+            markBuilt(t);
+            playFor(t);
+          } else {
+            t.state = 'pending';
+          }
+        }
       } else if (t.state !== 'idle') {
         unbuild(t);
       }
@@ -500,19 +507,28 @@
     wake();
   }, { passive: true });
 
-  // Opened disclosures show their content at once rather than waiting for a cursor.
-  document.addEventListener('toggle', (event) => {
-    const details = event.target;
-    if (!started || !(details instanceof HTMLDetailsElement) || !details.open) return;
+  // Content moved into view by the visitor's own action (opening or closing a
+  // disclosure, switching language) appears at once instead of waiting for a cursor.
+  let instantUntil = 0;
+  function showShiftedContent() {
+    if (!started) return;
     for (const t of targets) {
-      if (t.el === details || !details.contains(t.el) || t.state === 'built') continue;
+      if (t.state !== 'pending' && t.state !== 'claimed') continue;
       if (t.owner) releaseCursor(t.owner);
       if (t.marquee) t.marquee.remove();
       markBuilt(t);
       playFor(t);
     }
+    instantUntil = performance.now() + 400;
     wake();
+  }
+  document.addEventListener('toggle', (event) => {
+    if (event.target instanceof HTMLDetailsElement) showShiftedContent();
   }, true);
+  addEventListener('languagechange', showShiftedContent);
+
+  // Any other layout change (data loading, fonts) is picked up by the cursors.
+  if ('ResizeObserver' in window) new ResizeObserver(wake).observe(document.body);
 
   /* ---------- start ---------- */
 
