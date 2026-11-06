@@ -337,6 +337,7 @@ details[open] > .disclosure-body { animation: disclosure-in 420ms var(--ease); }
 .bp-pending .site-header, .bp-pending main { opacity: 0 !important; }
 .bp-target:not(.bp-built):not(.bp-drawing) { clip-path: inset(0 100% 100% 0); }
 .bp-rule:not(.bp-built) { border-color: transparent !important; }
+.bp-pending .reading-progress, .bp-hold-progress .reading-progress { visibility: hidden; }
 .bp-canvas { position: fixed; inset: 0; z-index: 21; pointer-events: none; background-image: radial-gradient(circle, color-mix(in srgb, var(--ink) 17%, transparent) 1px, transparent 1.4px); background-size: 24px 24px; transition: opacity 1.4s var(--ease); }
 .bp-canvas.is-done { opacity: 0; }
 .bp-layer { position: fixed; inset: 0; z-index: 50; pointer-events: none; overflow: hidden; }

@@ -295,6 +295,8 @@
     t.state = 'built';
     t.owner = null;
     t.marquee = null;
+    // The reading-progress bar sits on the header rule, so it appears with that line.
+    if (t.mode === 'rule-bottom' && header && header.contains(t.el)) root.classList.remove('bp-hold-progress');
   }
 
   function releaseCursor(c) {
@@ -579,7 +581,7 @@
   addEventListener('touchmove', start, { passive: true });
   addEventListener('keydown', onKey);
 
-  root.classList.add('bp-ready');
+  root.classList.add('bp-ready', 'bp-hold-progress');
   root.classList.remove('bp-pending');
   wake();
 })();
