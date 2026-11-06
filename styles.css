@@ -361,6 +361,7 @@ details[open] > .disclosure-body { animation: disclosure-in 420ms var(--ease); }
 .bp-start:focus { outline: none; }
 .bp-start:focus-visible .bp-hint { outline: 2px solid var(--accent-text); outline-offset: 6px; }
 .bp-start.is-gone { opacity: 0; pointer-events: none; }
+@media (hover: hover) and (pointer: fine) { .bp-start { cursor: none; } }
 .bp-intro { display: grid; justify-items: center; gap: 22px; }
 .bp-title { font-size: clamp(36px, 5.4vw, 82px); font-weight: 800; letter-spacing: -.055em; line-height: 1; }
 .bp-title span { color: var(--accent); }

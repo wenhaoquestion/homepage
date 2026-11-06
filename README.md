@@ -29,7 +29,7 @@ Open [localhost:8000](http://localhost:8000). Use HTTP rather than opening the H
 | `styles.css` | Design tokens, responsive layout, typography, motion, and themes. |
 | `gravity.js` | Softened inverse-square gravity experiment. |
 | `cell-study.js` | Browser rendering and controls for real saved simulation fields. |
-| `builder.js` | Opening animation: glowing cursors sketch on a blank canvas, then draw the page with marquee selections after the first click, and redraw sections as they scroll into view in either direction. Skipped with reduced motion; styles are the `bp-` rules at the end of `styles.css`. |
+| `builder.js` | Opening animation: one glowing cursor follows the pointer on a blank canvas; the first click or scroll splits it into one cursor per element, which draw the page with marquee selections. Sections redraw as they scroll into view in either direction, and idle cursors disappear. Skipped with reduced motion; styles are the `bp-` rules at the end of `styles.css`. |
 | `assets/cell-fields.json` | Compact original simulation data; see `docs/cell-data.md`. |
 | `docs/design.md` | Design direction and intentional adaptations. |
 | `docs/content-sources.md` | Source notes for project descriptions and media. |

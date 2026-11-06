@@ -186,31 +186,32 @@
 
   const ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 2 20 9.4 12.3 12.3 9.4 20Z"/></svg>';
 
-  function edgePoint() {
-    const w = innerWidth;
-    const h = innerHeight;
-    switch (Math.floor(rand(0, 4))) {
-      case 0: return { x: rand(0, w), y: -40 };
-      case 1: return { x: w + 40, y: rand(0, h) };
-      case 2: return { x: rand(0, w), y: h + 40 };
-      default: return { x: -40, y: rand(0, h) };
-    }
-  }
+  // The pool grows with the work: one cursor per element waiting to be drawn,
+  // split off from the visitor's pointer, and each leaves once it is idle.
+  const MAX_CURSORS = innerWidth < 760 ? 14 : 28;
+  const cursors = [];
+  let colorIndex = 0;
 
-  const count = Math.round(clamp(innerWidth / 90, 10, 16));
-  const cursors = Array.from({ length: count }, (_, i) => {
+  function makeCursor(x, y, burst = false) {
+    const color = COLORS[colorIndex++ % COLORS.length];
     const el = document.createElement('div');
     el.className = 'bp-cursor';
-    el.style.setProperty('--c', COLORS[i % COLORS.length]);
+    el.style.setProperty('--c', color);
     el.innerHTML = ARROW;
     layer.append(el);
-    const p = edgePoint();
-    return {
-      el, color: COLORS[i % COLORS.length], x: p.x, y: p.y, px: p.x, py: p.y, hx: 0, hy: 0, op: 0,
-      speed: rand(0.9, 1.15), side: Math.random() < 0.5 ? -1 : 1,
-      gen: null, kind: null, down: false, idleSince: 0, drawn: '',
+    const a = rand(0, Math.PI * 2);
+    const c = {
+      el, color, x, y, px: x, py: y, hx: burst ? Math.cos(a) : 0, hy: burst ? Math.sin(a) : 0,
+      op: burst ? 0.9 : 0, speed: rand(0.95, 1.2), side: Math.random() < 0.5 ? -1 : 1,
+      gen: null, kind: null, down: false, idleSince: performance.now(), drawn: '',
     };
-  });
+    cursors.push(c);
+    return c;
+  }
+
+  let pointer = null; // last known position of the visitor's own pointer
+  const touch = matchMedia('(hover: none)').matches;
+  const lead = makeCursor(innerWidth / 2, innerHeight / 2 + 90);
 
   /* ---------- motion (generators stepped once per frame) ---------- */
 
@@ -257,7 +258,7 @@
     if (Math.random() < 0.2) c.side = -c.side;
     const reach = rand(0.28, 0.42);
     const bend = c.side * rand(0.12, 0.32);
-    const duration = (clamp(280 + dist * 0.6, 340, 1050) * slowness) / c.speed;
+    const duration = (clamp(190 + dist * 0.4, 230, 680) * slowness) / c.speed;
 
     yield* tween(duration, (k) => {
       const p = getPoint();
@@ -273,40 +274,6 @@
       c.x = m * m * m * sx + 3 * m * m * t * ax + 3 * m * t * t * bx + t * t * t * p.x;
       c.y = m * m * m * sy + 3 * m * m * t * ay + 3 * m * t * t * by + t * t * t * p.y;
     });
-  }
-
-  /* ---------- intro: sketching on an empty canvas ---------- */
-
-  const ghosts = new Set();
-
-  function* wander(c) {
-    const m = 60;
-    const p = { x: rand(m, innerWidth - m), y: rand(m, innerHeight - m) };
-    yield* flyTo(c, () => p, rand(0.9, 1.3));
-    yield* wait(rand(30, 220));
-    if (Math.random() < 0.68 && ghosts.size < 34) {
-      const sx = c.x;
-      const sy = c.y;
-      const w = rand(40, 320) * (Math.random() < 0.25 ? -1 : 1);
-      const h = rand(24, 200) * (Math.random() < 0.2 ? -1 : 1);
-      const g = makeBox(c.color);
-      ghosts.add(g);
-      g.set(sx, sy, 0, 0);
-      c.down = true;
-      yield* wait(70);
-      yield* tween(rand(360, 680) / c.speed, (k) => {
-        const e = smooth(k);
-        c.x = sx + w * e;
-        c.y = sy + h * e;
-        g.set(sx, sy, w * e, h * e);
-      });
-      c.down = false;
-      g.release();
-      const life = rand(600, 1700);
-      g.remove(life);
-      setTimeout(() => ghosts.delete(g), life + 400);
-      yield* wait(rand(60, 200));
-    }
   }
 
   /* ---------- build phase ---------- */
@@ -363,13 +330,13 @@
     t.marquee = m;
     m.set(b.x, b.y, 0, 0);
     c.down = true;
-    yield* wait(70);
+    yield* wait(24);
 
     if (kind === 'box') {
       t.el.classList.add('bp-drawing');
       playFor(t);
     }
-    const duration = clamp(300 + Math.hypot(b.w, b.h) * 0.45, 380, 950) / c.speed;
+    const duration = clamp(190 + Math.hypot(b.w, b.h) * 0.3, 240, 640) / c.speed;
     yield* tween(duration, (k) => {
       const e = smooth(k);
       b = box(t) || b;
@@ -382,8 +349,8 @@
     c.down = false;
     markBuilt(t);
     m.release();
-    lingering.push({ m, t, fadeAt: now + 380, endAt: now + 760 });
-    yield* wait(rand(60, 140));
+    lingering.push({ m, t, fadeAt: now + 300, endAt: now + 680 });
+    yield* wait(rand(8, 40));
   }
 
   /* ---------- main loop ---------- */
@@ -420,7 +387,16 @@
       }
     }
 
-    let busy = !started || waiting > 0 || claimed > 0 || lingering.length > 0;
+    let busy = waiting > 0 || claimed > 0 || lingering.length > 0;
+
+    if (started && pending.length) {
+      let free = 0;
+      for (const c of cursors) if (c.kind !== 'build') free++;
+      const origin = spawnPoint();
+      for (let n = pending.length - free; n > 0 && cursors.length < MAX_CURSORS; n--) {
+        makeCursor(origin.x, origin.y, true);
+      }
+    }
 
     for (const c of cursors) {
       if (started && c.kind !== 'build' && pending.length) {
@@ -436,10 +412,6 @@
         c.kind = 'build';
         c.down = false;
       }
-      if (!c.gen && !started) {
-        c.gen = wander(c);
-        c.kind = 'wander';
-      }
       if (c.gen && c.gen.next().done) releaseCursor(c);
 
       const mx = c.x - c.px;
@@ -453,11 +425,20 @@
       c.px = c.x;
       c.py = c.y;
 
-      // Idle cursors leave as soon as there is nothing to draw.
-      const goal = !started || c.kind || now - c.idleSince < 120 ? 1 : 0;
-      c.op += (goal - c.op) * (1 - Math.exp(-dt / (goal ? 110 : 170)));
+      // Before the start only the lead shows, on the visitor's pointer; afterwards
+      // idle cursors leave as soon as there is nothing to draw.
+      const goal = !started ? (pointer || touch ? 1 : 0) : c.kind || now - c.idleSince < 60 ? 1 : 0;
+      c.op += (goal - c.op) * (1 - Math.exp(-dt / (goal ? 70 : 150)));
       if (Math.abs(goal - c.op) < 0.004) c.op = goal;
-      if (c.gen || c.op > 0) busy = true;
+      if (c.gen || (started && c.op > 0) || Math.abs(goal - c.op) > 0) busy = true;
+    }
+
+    for (let i = cursors.length - 1; i >= 0; i--) {
+      const c = cursors[i];
+      if (started && !c.gen && c.op === 0) {
+        c.el.remove();
+        cursors.splice(i, 1);
+      }
     }
 
     for (let i = lingering.length - 1; i >= 0; i--) {
@@ -533,7 +514,6 @@
   /* ---------- start ---------- */
 
   const chinese = root.lang === 'zh-CN';
-  const touch = matchMedia('(hover: none)').matches;
   const hint = chinese ? `${touch ? '轻点' : '点击'}任意位置，开始构建` : `${touch ? 'Tap' : 'Click'} anywhere to build`;
   const startButton = document.createElement('button');
   startButton.type = 'button';
@@ -551,15 +531,26 @@
     setTimeout(() => el.remove(), 900);
   }
 
+  function spawnPoint() {
+    if (pointer) return pointer;
+    return { x: lead.x, y: lead.y };
+  }
+
   function start(event) {
     if (started) return;
     started = true;
-    const pointer = event && typeof event.clientX === 'number' && event.clientX > 0;
-    ripple(pointer ? event.clientX : innerWidth / 2, pointer ? event.clientY : innerHeight / 2);
+    const touchPoint = event && event.touches && event.touches[0];
+    if (touchPoint) pointer = { x: touchPoint.clientX, y: touchPoint.clientY };
+    else if (event && typeof event.clientX === 'number' && (event.clientX || event.clientY)) {
+      pointer = { x: event.clientX, y: event.clientY };
+    }
+    const origin = spawnPoint();
+    lead.x = lead.px = origin.x;
+    lead.y = lead.py = origin.y;
+    lead.op = 1;
+    ripple(origin.x, origin.y);
     startButton.classList.add('is-gone');
     setTimeout(() => startButton.remove(), 500);
-    ghosts.forEach((g) => g.remove());
-    ghosts.clear();
     cursors.forEach(releaseCursor);
     removeEventListener('wheel', start);
     removeEventListener('touchmove', start);
@@ -571,6 +562,17 @@
     if (!['Shift', 'Control', 'Alt', 'Meta', 'CapsLock'].includes(event.key)) start();
   }
 
+  function trackPointer(event) {
+    pointer = { x: event.clientX, y: event.clientY };
+    if (!started) {
+      lead.x = pointer.x;
+      lead.y = pointer.y;
+      wake();
+    }
+  }
+
+  addEventListener('pointermove', trackPointer, { passive: true });
+  addEventListener('pointerdown', trackPointer, { passive: true });
   startButton.addEventListener('click', start);
   addEventListener('wheel', start, { passive: true });
   addEventListener('touchmove', start, { passive: true });
