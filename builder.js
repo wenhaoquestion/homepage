@@ -1,8 +1,9 @@
-// Cursor build intro. A swarm of glowing cursors sketches frames on an empty
-// canvas; the first click (or scroll / key press) sends them to draw the real
-// page with marquee selections. Elements build as they enter the viewport and
-// reset once they leave it, so scrolling either way keeps the cursors working.
-// Cursors fade out as soon as there is nothing left to draw.
+// Cursor build intro. On an empty canvas a single glowing cursor follows the
+// visitor's pointer; the first click (or scroll / key press) splits it into one
+// cursor per element waiting to be drawn, and they draw the real page with
+// marquee selections along Bézier flight paths. Elements build as they enter the
+// viewport and reset once they leave it, so scrolling either way splits off new
+// cursors from the pointer. Each cursor is removed once it has nothing to draw.
 //
 // Unbuilt elements are hidden with clip-path only, so the page's own opacity and
 // transform effects (scroll reveals, title masks, canvas entrance) are untouched;
